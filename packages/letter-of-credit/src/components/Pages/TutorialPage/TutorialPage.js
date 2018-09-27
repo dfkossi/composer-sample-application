@@ -31,7 +31,7 @@ class TutorialPage extends Component {
             <div id="tutorialPageContainer" className="tutorialPageContainer" >
 
                 <div id="contents" >
-                    <h1>Letters of Credit Tutorial</h1>
+                    <h1>Letter of Credit Tutorial</h1>
                     <ul>
                         <li className="top-level" >
                             <a href="#scenario" >Scenario</a>
@@ -80,7 +80,7 @@ class TutorialPage extends Component {
                 <div id="tutorialContainer" >
                     <h1 id="scenario">Scenario</h1>
 
-                    <p>In this sample you will take on the role of four participants to see how blockchain can be used to track letters of credit. These participants are:</p>
+                    <p>In this sample you will take on the role of four participants to see how blockchain can be used to track letter of credit. These participants are:</p>
 
                     <p><strong>Alice Hamilton</strong> - Owner of QuickFix IT, a company specialising in the sale of computers.</p>
 

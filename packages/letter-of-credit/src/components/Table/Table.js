@@ -19,7 +19,7 @@ class Table extends Component {
   	return(
   		<div id="tableContainer" className={this.props.styling}>
   			<div id="headerBar" className="headerBar">
-  				<span className="locOrdersText"> Letters of Credit Applications </span>
+  				<span className="locOrdersText"> Letter of Credit Applications </span>
   			</div>
   			<table className="bankTable">
   				<tbody>

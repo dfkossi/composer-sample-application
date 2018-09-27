@@ -136,29 +136,29 @@ ROOT=$DIR/..
 cd $ROOT
 npm install
 cd $DIR
-cp $ROOT/node_modules/letters-of-credit-network/dist/letters-of-credit-network.bna letters-of-credit-network.bna
+cp $ROOT/node_modules/letter-of-credit-network/dist/letter-of-credit-network.bna letter-of-credit-network.bna
 
 # INSTALL THE BNA
 docker run \
   --rm \
   --network composer_default \
-  -v $(pwd)/letters-of-credit-network.bna:/home/composer/letters-of-credit-network.bna \
+  -v $(pwd)/letter-of-credit-network.bna:/home/composer/letter-of-credit-network.bna \
   -v $(pwd)/loc-stage:/home/composer/loc-stage \
   -v $(pwd)/.loc-card-store:/home/composer/.composer \
   hyperledger/composer-cli:latest \
-  network install -c PeerAdmin@hlfv1 -a letters-of-credit-network.bna
+  network install -c PeerAdmin@hlfv1 -a letter-of-credit-network.bna
 
-NETWORK_VERSION=$(grep -o '"version": *"[^"]*"' $ROOT/node_modules/letters-of-credit-network/package.json | grep -o '[0-9]\.[0-9]\.[0-9]')
+NETWORK_VERSION=$(grep -o '"version": *"[^"]*"' $ROOT/node_modules/letter-of-credit-network/package.json | grep -o '[0-9]\.[0-9]\.[0-9]')
 
 # START THE BNA
 docker run \
   --rm \
   --network composer_default \
-  -v $(pwd)/letters-of-credit-network.bna:/home/composer/letters-of-credit-network.bna \
+  -v $(pwd)/letter-of-credit-network.bna:/home/composer/letter-of-credit-network.bna \
   -v $(pwd)/loc-stage:/home/composer/loc-stage \
   -v $(pwd)/.loc-card-store:/home/composer/.composer \
   hyperledger/composer-cli:latest \
-  network start -n letters-of-credit-network -V $NETWORK_VERSION -c PeerAdmin@hlfv1 -A admin -S adminpw -f /home/composer/loc-stage/bnaadmin.card
+  network start -n letter-of-credit-network -V $NETWORK_VERSION -c PeerAdmin@hlfv1 -A admin -S adminpw -f /home/composer/loc-stage/bnaadmin.card
 
 docker run \
   --rm \
@@ -174,7 +174,7 @@ docker run \
   --network composer_default \
   -v $(pwd)/.loc-card-store:/home/composer/.composer \
   hyperledger/composer-cli:latest \
-  transaction submit -c admin@letters-of-credit-network -d '{"$class": "org.example.loc.CreateDemoParticipants"}'
+  transaction submit -c admin@letter-of-credit-network -d '{"$class": "org.example.loc.CreateDemoParticipants"}'
 
 # SET CORRECT PERMISSIONS
 docker exec \
@@ -187,7 +187,7 @@ docker run \
   --network composer_default \
   --name rest \
   -v $(pwd)/.loc-card-store:/home/composer/.composer \
-  -e COMPOSER_CARD=admin@letters-of-credit-network \
+  -e COMPOSER_CARD=admin@letter-of-credit-network \
   -e COMPOSER_NAMESPACES=never \
   -p 3000:3000 \
   hyperledger/composer-rest-server:latest
@@ -202,7 +202,7 @@ docker run \
 --name vda \
 -e REACT_APP_REST_SERVER_CONFIG='{"webSocketURL": "ws://localhost:3000", "httpURL": "http://localhost:3000/api"}' \
 -p 6001:6001 \
-hyperledger/letters-of-credit:latest
+dfkossi/letter-of-credit:latest
 
 #WAIT FOR REACT SERVER TO WAKE UP
 sleep 10
