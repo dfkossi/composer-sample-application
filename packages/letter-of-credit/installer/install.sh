@@ -59,15 +59,15 @@ echo '{
 		}
 	},
 	"orderers": {
-		"orderer.example.com": {
-			"url": "grpc://orderer.example.com:7050",
+		"orderer.tradechain.com": {
+			"url": "grpc://orderer.tradechain.com:7050",
 			"grpcOptions": {}
 		}
 	},
 	"peers": {
-		"peer0.org1.example.com": {
-			"url": "grpc://peer0.org1.example.com:7051",
-			"eventUrl": "grpc://peer0.org1.example.com:7053",
+		"peer0.org1.tradechain.com": {
+			"url": "grpc://peer0.org1.tradechain.com:7051",
+			"eventUrl": "grpc://peer0.org1.tradechain.com:7053",
 			"grpcOptions": {},
 			"endorsingPeer": true,
 			"chaincodeQuery": true,
@@ -77,23 +77,23 @@ echo '{
 	},
 	"channels": {
 		"composerchannel": {
-			"orderers": ["orderer.example.com"],
+			"orderers": ["orderer.tradechain.com"],
 			"peers": {
-				"peer0.org1.example.com": {}
+				"peer0.org1.tradechain.com": {}
 			}
 		}
 	},
 	"certificateAuthorities": {
-		"ca.org1.example.com": {
-			"url": "http://ca.org1.example.com:7054",
-			"caName": "ca.org1.example.com"
+		"ca.org1.tradechain.com": {
+			"url": "http://ca.org1.tradechain.com:7054",
+			"caName": "ca.org1.tradechain.com"
 		}
 	},
 	"organizations": {
 		"Org1": {
 			"mspid": "Org1MSP",
-			"peers": ["peer0.org1.example.com"],
-			"certificateAuthorities": ["ca.org1.example.com"]
+			"peers": ["peer0.org1.tradechain.com"],
+			"certificateAuthorities": ["ca.org1.tradechain.com"]
 		}
 	},
 	"x-type": "hlfv1",
@@ -106,16 +106,16 @@ docker run \
   --network composer_default \
   -v $(pwd)/.loc-card-store:/home/composer/.composer \
   -v $(pwd)/loc-stage:/home/composer/loc-stage \
-  -v $(pwd)/fabric-tools/fabric-scripts/hlfv1/composer/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp:/home/composer/PeerAdmin \
+  -v $(pwd)/fabric-tools/fabric-scripts/hlfv1/composer/crypto-config/peerOrganizations/org1.tradechain.com/users/Admin@org1.tradechain.com/msp:/home/composer/PeerAdmin \
   hyperledger/composer-cli:latest \
-  card create -p loc-stage/connection.json -u PeerAdmin -r PeerAdmin -r ChannelAdmin -f /home/composer/loc-stage/PeerAdmin.card -c PeerAdmin/signcerts/Admin@org1.example.com-cert.pem -k PeerAdmin/keystore/114aab0e76bf0c78308f89efc4b8c9423e31568da0c340ca187a9b17aa9a4457_sk
+  card create -p loc-stage/connection.json -u PeerAdmin -r PeerAdmin -r ChannelAdmin -f /home/composer/loc-stage/PeerAdmin.card -c PeerAdmin/signcerts/Admin@org1.tradechain.com-cert.pem -k PeerAdmin/keystore/114aab0e76bf0c78308f89efc4b8c9423e31568da0c340ca187a9b17aa9a4457_sk
 
 docker run \
   --rm \
   --network composer_default \
   -v $(pwd)/.loc-card-store:/home/composer/.composer \
   -v $(pwd)/loc-stage:/home/composer/loc-stage \
-  -v $(pwd)/fabric-tools/fabric-scripts/hlfv1/composer/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp:/home/composer/PeerAdmin \
+  -v $(pwd)/fabric-tools/fabric-scripts/hlfv1/composer/crypto-config/peerOrganizations/org1.tradechain.com/users/Admin@org1.tradechain.com/msp:/home/composer/PeerAdmin \
   hyperledger/composer-cli:latest \
   card import -f /home/composer/loc-stage/PeerAdmin.card
 
@@ -174,7 +174,7 @@ docker run \
   --network composer_default \
   -v $(pwd)/.loc-card-store:/home/composer/.composer \
   hyperledger/composer-cli:latest \
-  transaction submit -c admin@letter-of-credit-network -d '{"$class": "org.example.loc.CreateDemoParticipants"}'
+  transaction submit -c admin@letter-of-credit-network -d '{"$class": "org.tradechain.loc.CreateDemoParticipants"}'
 
 # SET CORRECT PERMISSIONS
 docker exec \
@@ -208,12 +208,12 @@ dfkossi/letter-of-credit:latest
 sleep 10
 
 # OPEN THE APPLICATION
-URLS="http://localhost:6001/tutorial http://localhost:6001/alice http://localhost:6001/matias http://localhost:6001/ella http://localhost:6001/bob http://localhost:8080 http://localhost:3000/explorer/"
+URLS="http://localhost:6001/tutorial http://localhost:6001/wapo http://localhost:6001/emma http://localhost:6001/kokou http://localhost:6001/peniel http://localhost:8080 http://localhost:3000/explorer/"
 case "$(uname)" in
 "Darwin") open ${URLS}
           ;;
 "Linux")  if [ -n "$BROWSER" ] ; then
-	       	        $BROWSER http://localhost:6001/tutorial http://localhost:6001/alice http://localhost:6001/matias http://localhost:6001/ella http://localhost:6001/bob http://localhost:8080 http://localhost:3000/explorer/
+	       	        $BROWSER http://localhost:6001/tutorial http://localhost:6001/wapo http://localhost:6001/emma http://localhost:6001/kokou http://localhost:6001/peniel http://localhost:8080 http://localhost:3000/explorer/
 	        elif    which x-www-browser > /dev/null ; then
                   nohup x-www-browser ${URLS} < /dev/null > /dev/null 2>&1 &
           elif    which xdg-open > /dev/null ; then
@@ -221,7 +221,7 @@ case "$(uname)" in
                           xdg-open ${URL}
 	                done
           elif  	which gnome-open > /dev/null ; then
-	                gnome-open http://localhost:6001/tutorial http://localhost:6001/alice http://localhost:6001/matias http://localhost:6001/ella http://localhost:6001/bob http://localhost:8080 http://localhost:3000/explorer/
+	                gnome-open http://localhost:6001/tutorial http://localhost:6001/wapo http://localhost:6001/emma http://localhost:6001/kokou http://localhost:6001/peniel http://localhost:8080 http://localhost:3000/explorer/
 	        else
     	            echo "Could not detect web browser to use - please launch Application and Composer Playground URL using your chosen browser ie: <browser executable name> http://localhost:8080 or set your BROWSER variable to the browser launcher in your PATH"
 	        fi
